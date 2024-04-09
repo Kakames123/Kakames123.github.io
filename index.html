@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Você</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        #buttonContainer {
+            display: none;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 9999;
+        }
+        #buttonContainer p {
+            color: red;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #buttonContainer button {
+            background-color: transparent;
+            color: red;
+            border: 2px solid red;
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #buttonContainer button:hover {
+            background-color: red;
+            color: white;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+        }
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="letter">
+                    <div class="text">
+                        <strong>Apenas uma Carta.</strong>
+                        <p>
+                            Quanto mais o tempo passa, mais eu percebo o quanto gosto de você, o quanto me importo que você esteja comigo. Sendo a pessoa incrivel que você é.
+                            Por esse motivo eu gostaria de saber se...
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+        <div id="buttonContainer">
+            <p id="question">Você Quer Namorar Comigo?</p>
+            <button id="buttonSim">Sim</button>
+            <button id="buttonNao">Não</button>
+        </div>
+    </div>
+    <div id="popup" class="popup">
+        <p>Obrigado por aceitar, essa também era a unica opção! 😊</p>
+    </div>
+    <script>
+        let isFirstTimeClosed = true;
+        let mouseOverCount = 0;
+
+        const envelope = document.querySelector('.envelope-wrapper');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const buttonNao = document.getElementById('buttonNao');
+        const buttonSim = document.getElementById('buttonSim');
+        const popup = document.getElementById('popup');
+        const question = document.getElementById('question');
+        const backgroundImage = document.querySelector('.background-image');
+
+        envelope.addEventListener('click', () => {
+            if (isFirstTimeClosed) {
+                envelope.classList.toggle('flap');
+                isFirstTimeClosed = false;
+            } else {
+                envelope.classList.toggle('flap');
+
+                setTimeout(() => {
+                    envelope.style.transform = "translateX(-2000%)"; 
+                    envelope.style.transition = "transform 1s ease-in-out";
+                    envelope.querySelector('.letter').style.transform = "translateX(-200%)"; 
+                    envelope.querySelector('.letter').style.transition = "transform 1s ease-in-out";
+
+                    setTimeout(() => {
+                        buttonContainer.style.display = "block";
+                    }, 1000);
+                }, 1500); 
+            }
+        });
+
+        buttonNao.addEventListener('mouseover', () => {
+            mouseOverCount++;
+            if (mouseOverCount >= 15) {
+                buttonNao.style.display = 'none';
+            } else {
+                const margin = 469; 
+                const minX = buttonNao.offsetLeft - margin;
+                const maxX = buttonNao.offsetLeft + margin;
+                const minY = buttonNao.offsetTop - margin;
+                const maxY = buttonNao.offsetTop + margin;
+                const randomX = Math.random() * (maxX - minX) + minX;
+                const randomY = Math.random() * (maxY - minY) + minY;
+                buttonNao.style.position = 'absolute';
+                buttonNao.style.left = randomX + 'px';
+                buttonNao.style.top = randomY + 'px';
+            }
+        });
+
+        buttonSim.addEventListener('click', () => {
+            popup.style.display = 'block';
+            buttonContainer.style.display = 'none';
+            backgroundImage.style.backgroundImage = "url('https://gifman.net/wp-content/uploads/2019/06/ursinho-fofo-apaixonado.gif')"; // Altera o background para a imagem desejada
+        });
+    </script>
+</body>
+</html>
